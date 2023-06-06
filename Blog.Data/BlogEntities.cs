@@ -13,10 +13,12 @@ namespace Blog.Data
 
         public DbSet<Entities.Author> Authors { get; set; }
 
+        public DbSet<Entities.Comment> Comments { get; set; }
+
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-            //modelBuilder.Configurations.Add(new Configuration.PostConfiguration());
+            // modelBuilder.Configurations.Add(new Configuration.PostConfiguration());
         }
 
         public virtual void Commit()

@@ -1,17 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace Blog.Entities
 {
-    public class Post: EntityBase
+    public class Comment : EntityBase
     {
         [Key]
         public Guid Id { get; set; }
-
-        [Required]
-        [StringLength(250, ErrorMessage = "El título debe ser menor de 250 caracteres", MinimumLength = 3)]
-        public string Title { get; set; }
 
         [Required]
         public string Content { get; set; }
@@ -20,6 +15,8 @@ namespace Blog.Entities
 
         public virtual Author Author { get; set; }
 
-        public virtual ICollection<Comment> Comments { get; set; }
+        public Guid PostId { get; set; }
+
+        public virtual Post Post { get; set; }
     }
 }
