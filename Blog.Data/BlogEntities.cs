@@ -9,5 +9,13 @@ namespace Blog.Data
         }
 
         public DbSet<Entities.Post> Posts { get; set; }
+
+        public DbSet<Entities.Author> Authors { get; set; }
+
+        protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+            //modelBuilder.Configurations.Add(new Configuration.PostConfiguration());
+        }
     }
 }
