@@ -20,9 +20,15 @@ namespace Blog.App_Start
         {
             var builder = new ContainerBuilder();
 
+            // Registra los controladores
             builder.RegisterControllers(Assembly.GetExecutingAssembly());
 
+            // Registra las dependencias
+
+            // Crea el contenedor Autofac
             IContainer container = builder.Build();
+
+            // Configura la resolución de dependencias para los controladores de MVC
             DependencyResolver.SetResolver(new AutofacDependencyResolver(container));
         }
     }
