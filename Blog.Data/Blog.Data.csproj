@@ -52,6 +52,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BlogEntities.cs" />
+    <Compile Include="BlogInitializer.cs" />
     <Compile Include="Configuration\PostConfiguration.cs" />
     <Compile Include="Infrastructure\DbFactory.cs" />
     <Compile Include="Infrastructure\Disposable.cs" />
