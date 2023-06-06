@@ -1,4 +1,5 @@
-﻿using System.Data.Entity;
+﻿using System;
+using System.Data.Entity;
 
 namespace Blog.Data
 {
@@ -16,6 +17,11 @@ namespace Blog.Data
         {
             base.OnModelCreating(modelBuilder);
             //modelBuilder.Configurations.Add(new Configuration.PostConfiguration());
+        }
+
+        public virtual void Commit()
+        {
+            base.SaveChanges();
         }
     }
 }
