@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace Blog.Service
 {
@@ -7,5 +8,7 @@ namespace Blog.Service
         void Commit();
 
         IEnumerable<Entities.Author> GetAuthors();
+
+        Entities.Author FindAuthor(Guid id);
     }
 }

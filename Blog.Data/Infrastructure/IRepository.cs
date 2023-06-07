@@ -16,8 +16,8 @@ namespace Blog.Data.Infrastructure
         void Delete(T entity);
         void Delete(Expression<Func<T, bool>> where);
 
-        // Get an entity by int id
-        T GetById(int id);
+        // Get an entity by Guid id
+        T GetById(Guid id);
 
         // Get an entity using delegate
         T Get(Expression<Func<T, bool>> where);

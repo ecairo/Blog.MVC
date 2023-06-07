@@ -1,5 +1,7 @@
 ﻿using Blog.Data.Infrastructure;
 using Blog.Data.Repositories;
+using Blog.Entities;
+using System;
 using System.Collections.Generic;
 
 namespace Blog.Service
@@ -23,6 +25,13 @@ namespace Blog.Service
         public void Commit()
         {
             unitOfWork.Commit();
+        }
+
+        public Author FindAuthor(Guid id)
+        {
+            var author = this.authorRepository.GetById(id);
+
+            return author;
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿@model Blog.Entities.Author
+﻿@model Blog.ViewModels.AuthorDetailViewModel
 
 @{
     ViewBag.Title = "Details";
@@ -51,19 +51,19 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.CreatedAt)
+            @Html.DisplayNameFor(model => model.Posts)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.CreatedAt)
+            @Html.DisplayFor(model => model.Posts)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.UpdatedAt)
+            @Html.DisplayNameFor(model => model.Comments)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.UpdatedAt)
+            @Html.DisplayFor(model => model.Comments)
         </dd>
 
     </dl>

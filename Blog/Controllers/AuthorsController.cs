@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Net;
 using System.Web.Mvc;
 using AutoMapper;
 using Blog.Service;
@@ -39,7 +41,7 @@ namespace Blog.Controllers
             return View(authorsViewModel);
         }
 
-        /*
+        
         // GET: Authors/Details/5
         public ActionResult Details(Guid? id)
         {
@@ -47,14 +49,20 @@ namespace Blog.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Author author = db.Authors.Find(id);
+
+            var author = this.authorService.FindAuthor(id.Value);
+            
             if (author == null)
             {
                 return HttpNotFound();
             }
-            return View(author);
+
+            var authorDetailViewModel = this.mapper.Map<Entities.Author, ViewModels.AuthorDetailViewModel>(author);
+
+            return View(authorDetailViewModel);
         }
 
+        /*
         // GET: Authors/Create
         public ActionResult Create()
         {

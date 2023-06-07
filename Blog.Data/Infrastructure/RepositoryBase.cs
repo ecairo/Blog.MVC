@@ -60,7 +60,7 @@ namespace Blog.Data.Infrastructure
                 dbSet.Remove(obj);
         }
 
-        public virtual T GetById(int id)
+        public virtual T GetById(Guid id)
         {
             return dbSet.Find(id);
         }

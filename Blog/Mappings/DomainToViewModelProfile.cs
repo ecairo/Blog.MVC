@@ -8,6 +8,11 @@ namespace Blog.Mappings
         {
             CreateMap<Entities.Author, ViewModels.AuthorViewModel>()
                 .ForMember(dst => dst.FullName, cfg => cfg.MapFrom(src => src.Name + " " + src.FirstName + " " + src.LastName));
+
+            CreateMap<Entities.Author, ViewModels.AuthorDetailViewModel>()
+                .ForMember(dst => dst.Posts, cfg => cfg.MapFrom(src => src.Posts.Count))
+                .ForMember(dst => dst.Comments, cfg => cfg.MapFrom(src => src.Comments.Count));
+
         }
     }
 }

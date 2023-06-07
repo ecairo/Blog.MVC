@@ -16,7 +16,9 @@ namespace Blog.Data
             {
                 new Entities.Author()
                 {
-                    Name = "George RR Martin",
+                    Name = "George",
+                    FirstName = "RR",
+                    LastName = "Martin",
                     Email = "published@got.com",
                     Id = Guid.Parse("d64d0d6e-ba3c-47f1-a9f7-d573d5999bcd"),
                     CreatedAt = DateTime.Now,
@@ -24,7 +26,8 @@ namespace Blog.Data
                 },
                 new Entities.Author()
                 {
-                    Name = "Tolkien RR",
+                    Name = "Tolkien",
+                    FirstName = "RR",
                     Email = "published@lotr.com",
                     Id = Guid.Parse("d7f222ad-84da-43f9-b05d-daa2e78f6ee8"),
                     CreatedAt = DateTime.Now,
