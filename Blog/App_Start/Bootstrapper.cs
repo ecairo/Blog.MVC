@@ -1,5 +1,8 @@
 ﻿using Autofac;
 using Autofac.Integration.Mvc;
+using Blog.Data.Infrastructure;
+using Blog.Data.Repositories;
+using Blog.Service;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,7 +27,12 @@ namespace Blog.App_Start
             builder.RegisterControllers(Assembly.GetExecutingAssembly());
 
             // Registra las dependencias
+            builder.RegisterType<UnitOfWork>().As<IUnitOfWork>().InstancePerRequest();
+            builder.RegisterType<DbFactory>().As<IDbFactory>().InstancePerRequest();
 
+            builder.RegisterType<AuthorRepository>().As<IAuthorRepository>().InstancePerRequest();
+
+            builder.RegisterType<AuthorService>().As<IAuthorService>().InstancePerRequest();
             // Crea el contenedor Autofac
             IContainer container = builder.Build();
 
