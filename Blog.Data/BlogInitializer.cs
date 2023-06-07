@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Data.Entity.Migrations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,12 +14,12 @@ namespace Blog.Data
         {
             // ... Inicializar DB con datos de pruebas
 
-            GetAuthors().ForEach(a => blogEntities.Authors.Add(a));
+            GetAuthors().ForEach(a => blogEntities.Authors.AddOrUpdate(a));
 
-            blogEntities.Commit();            
+            blogEntities.Commit();
         }
 
-        private static List<Entities.Author> GetAuthors()
+        public static List<Entities.Author> GetAuthors()
         {
             return new List<Entities.Author>()
             {
@@ -26,13 +27,17 @@ namespace Blog.Data
                 {
                     Name = "George RR Martin",
                     Email = "published@got.com",
-                    Id = Guid.NewGuid()
+                    Id = Guid.NewGuid(),
+                    CreatedAt = DateTime.Now,
+                    UpdatedAt = DateTime.Now,
                 },
                 new Entities.Author()
                 {
                     Name = "Tolkien RR",
                     Email = "published@lotr.com",
-                    Id = Guid.NewGuid()
+                    Id = Guid.NewGuid(),
+                    CreatedAt = DateTime.Now,
+                    UpdatedAt = DateTime.Now,
                 },
             };
         }

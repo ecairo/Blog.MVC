@@ -2,7 +2,7 @@
 
 namespace Blog.Data.Repositories
 {
-    public class AuthorRepository : RepositoryBase<Entities.Author>, IAuthorRespository
+    public class AuthorRepository : RepositoryBase<Entities.Author>, IAuthorRepository
     {
         public AuthorRepository(IDbFactory dbFactory)
             :base(dbFactory) {   }

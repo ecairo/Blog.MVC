@@ -37,6 +37,7 @@ namespace Blog.Data.Infrastructure
         public virtual void Add(T entity)
         {
             entity.CreatedAt = DateTime.Now;
+            entity.UpdatedAt = DateTime.Now;
             dbSet.Add(entity);
         }
 

@@ -2,7 +2,7 @@
 
 namespace Blog.Data.Repositories
 {
-    public interface IAuthorRespository : IRepository<Entities.Author>
+    public interface IAuthorRepository : IRepository<Entities.Author>
     {
     }
 }

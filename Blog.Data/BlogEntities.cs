@@ -7,6 +7,7 @@ namespace Blog.Data
     {
         public BlogEntities() : base("BlogEntities")
         {
+
         }
 
         public DbSet<Entities.Post> Posts { get; set; }
@@ -18,7 +19,7 @@ namespace Blog.Data
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-            // modelBuilder.Configurations.Add(new Configuration.PostConfiguration());
+            //modelBuilder.Configurations.Add(new Configuration.PostConfiguration());
         }
 
         public virtual void Commit()
