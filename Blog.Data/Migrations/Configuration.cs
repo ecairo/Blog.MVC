@@ -15,9 +15,9 @@
         protected override void Seed(Blog.Data.BlogEntities context)
         {
             //  This method will be called after migrating to the latest version.
+            BlogInitializer.GetAuthors().ForEach(a => context.Authors.AddOrUpdate(a));
 
-            //  You can use the DbSet<T>.AddOrUpdate() helper extension method
-            //  to avoid creating duplicate seed data.
+            context.Commit();
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using Autofac;
 using Autofac.Integration.Mvc;
+using AutoMapper;
 using Blog.Data.Infrastructure;
 using Blog.Data.Repositories;
 using Blog.Service;
@@ -28,11 +29,17 @@ namespace Blog.App_Start
 
             // Registra las dependencias
             builder.RegisterType<UnitOfWork>().As<IUnitOfWork>().InstancePerRequest();
+
             builder.RegisterType<DbFactory>().As<IDbFactory>().InstancePerRequest();
 
             builder.RegisterType<AuthorRepository>().As<IAuthorRepository>().InstancePerRequest();
 
             builder.RegisterType<AuthorService>().As<IAuthorService>().InstancePerRequest();
+
+            // Registrando AutoMapper
+            builder.Register<IConfigurationProvider>(ctx => new MapperConfiguration(cfg => cfg.AddMaps(Assembly.GetExecutingAssembly())));
+            builder.Register<IMapper>(ctx => new Mapper(ctx.Resolve<IConfigurationProvider>(), ctx.Resolve)).InstancePerDependency();
+
             // Crea el contenedor Autofac
             IContainer container = builder.Build();
 

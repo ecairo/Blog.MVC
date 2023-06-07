@@ -9,16 +9,7 @@ using System.Threading.Tasks;
 namespace Blog.Data
 {
     public class BlogInitializer : DropCreateDatabaseIfModelChanges<BlogEntities>
-    {
-        protected override void Seed(BlogEntities blogEntities)
-        {
-            // ... Inicializar DB con datos de pruebas
-
-            GetAuthors().ForEach(a => blogEntities.Authors.AddOrUpdate(a));
-
-            blogEntities.Commit();
-        }
-
+    {        
         public static List<Entities.Author> GetAuthors()
         {
             return new List<Entities.Author>()
@@ -27,7 +18,7 @@ namespace Blog.Data
                 {
                     Name = "George RR Martin",
                     Email = "published@got.com",
-                    Id = Guid.NewGuid(),
+                    Id = Guid.Parse("d64d0d6e-ba3c-47f1-a9f7-d573d5999bcd"),
                     CreatedAt = DateTime.Now,
                     UpdatedAt = DateTime.Now,
                 },
@@ -35,7 +26,7 @@ namespace Blog.Data
                 {
                     Name = "Tolkien RR",
                     Email = "published@lotr.com",
-                    Id = Guid.NewGuid(),
+                    Id = Guid.Parse("d7f222ad-84da-43f9-b05d-daa2e78f6ee8"),
                     CreatedAt = DateTime.Now,
                     UpdatedAt = DateTime.Now,
                 },

@@ -1,26 +1,45 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Data.Entity;
-using System.Linq;
-using System.Net;
-using System.Web;
+﻿using System.Collections.Generic;
 using System.Web.Mvc;
-using Blog.Data;
-using Blog.Entities;
+using AutoMapper;
+using Blog.Service;
 
 namespace Blog.Controllers
 {
     public class AuthorsController : Controller
     {
-        private BlogEntities db = new BlogEntities();
+        private readonly IAuthorService authorService;
+        private readonly IMapper mapper;
+
+        public AuthorsController(IAuthorService authorService, IMapper mapper)
+        {
+            this.authorService = authorService;
+            this.mapper = mapper;
+        }
+
 
         // GET: Authors
         public ActionResult Index()
         {
-            return View(db.Authors.ToList());
+            var authorsFromService = this.authorService.GetAuthors();
+
+            // Con AutoMapper
+            var authorsViewModel = this.mapper.Map<IEnumerable<Entities.Author>, IEnumerable<ViewModels.AuthorViewModel>>(authorsFromService);
+
+            // Sin AutoMapper
+            //foreach (var authorEntity in authorsFromService)
+            //{
+            //    authorsViewModel.Add(new ViewModels.AuthorViewModel()
+            //    {
+            //        Id = authorEntity.Id,
+            //        FullName = authorEntity.Name + " " + authorEntity.FirstName + " " + authorEntity.LastName,
+            //        Email = authorEntity.Email
+            //    });
+            //}
+
+            return View(authorsViewModel);
         }
 
+        /*
         // GET: Authors/Details/5
         public ActionResult Details(Guid? id)
         {
@@ -125,5 +144,6 @@ namespace Blog.Controllers
             }
             base.Dispose(disposing);
         }
+        */
     }
 }

@@ -14,7 +14,7 @@ namespace Blog
     {
         protected void Application_Start()
         {
-            System.Data.Entity.Database.SetInitializer(new BlogInitializer());
+            //System.Data.Entity.Database.SetInitializer(new BlogInitializer());            
 
             AreaRegistration.RegisterAllAreas();
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
