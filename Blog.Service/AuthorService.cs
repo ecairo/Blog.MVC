@@ -33,5 +33,20 @@ namespace Blog.Service
 
             return author;
         }
+
+        public void AddAuthor(Author authorEntity)
+        {
+            this.authorRepository.Add(authorEntity);
+        }
+
+        public void UpdateAuthor(Author authorEntity)
+        {
+            this.authorRepository.Update(authorEntity);
+        }
+
+        public void DeleteAuthor(Author author)
+        {
+            this.authorRepository.Delete(author);
+        }
     }
 }

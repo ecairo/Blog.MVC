@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Blog.Entities;
+using System;
 using System.Collections.Generic;
 
 namespace Blog.Service
@@ -10,5 +11,10 @@ namespace Blog.Service
         IEnumerable<Entities.Author> GetAuthors();
 
         Entities.Author FindAuthor(Guid id);
+
+        void AddAuthor(Author authorEntity);
+
+        void UpdateAuthor(Author authorEntity);
+        void DeleteAuthor(Author author);
     }
 }

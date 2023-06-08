@@ -62,31 +62,37 @@ namespace Blog.Controllers
             return View(authorDetailViewModel);
         }
 
-        /*
+        
         // GET: Authors/Create
         public ActionResult Create()
         {
             return View();
         }
 
+        
         // POST: Authors/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Name,FirstName,LastName,Email,GravatarUrl,CreatedAt,UpdatedAt")] Author author)
+        public ActionResult Create([Bind(Include = "Name,FirstName,LastName,Email,GravatarUrl")] ViewModels.AuthorFormViewModel authorForm)
         {
             if (ModelState.IsValid)
             {
-                author.Id = Guid.NewGuid();
-                db.Authors.Add(author);
-                db.SaveChanges();
+                var authorEntity = this.mapper.Map<ViewModels.AuthorFormViewModel, Entities.Author>(authorForm);
+
+                authorEntity.Id = Guid.NewGuid();
+
+                this.authorService.AddAuthor(authorEntity);
+
+                this.authorService.Commit();
+
                 return RedirectToAction("Index");
             }
 
-            return View(author);
+            return View(authorForm);
         }
-
+        
         // GET: Authors/Edit/5
         public ActionResult Edit(Guid? id)
         {
@@ -94,30 +100,48 @@ namespace Blog.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Author author = db.Authors.Find(id);
+
+            var author = this.authorService.FindAuthor(id.Value);
+
             if (author == null)
             {
                 return HttpNotFound();
             }
-            return View(author);
+
+            var authorEditFormViewModel = this.mapper.Map<Entities.Author, ViewModels.AuthorEditFormViewModel>(author);
+
+            return View(authorEditFormViewModel);
         }
 
+        
         // POST: Authors/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Name,FirstName,LastName,Email,GravatarUrl,CreatedAt,UpdatedAt")] Author author)
+        public ActionResult Edit(Guid id, [Bind(Include = "Name,FirstName,LastName,GravatarUrl")] ViewModels.AuthorEditFormViewModel authorEditFormView)
         {
-            if (ModelState.IsValid)
+            var author = this.authorService.FindAuthor(id);
+
+            if (author == null)
             {
-                db.Entry(author).State = EntityState.Modified;
-                db.SaveChanges();
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            if (ModelState.IsValid)
+            {                
+                var authorEntity = this.mapper.Map<ViewModels.AuthorEditFormViewModel, Entities.Author>(authorEditFormView, author);
+                
+                this.authorService.UpdateAuthor(authorEntity);
+
+                this.authorService.Commit();
+
                 return RedirectToAction("Index");
             }
-            return View(author);
-        }
 
+            return View(authorEditFormView);
+        }
+        
         // GET: Authors/Delete/5
         public ActionResult Delete(Guid? id)
         {
@@ -125,12 +149,17 @@ namespace Blog.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Author author = db.Authors.Find(id);
+
+            var author = this.authorService.FindAuthor(id.Value);
+
             if (author == null)
             {
                 return HttpNotFound();
             }
-            return View(author);
+
+            var authorDetailsViewModel = this.mapper.Map<Entities.Author, ViewModels.AuthorDetailViewModel>(author);
+
+            return View(authorDetailsViewModel);
         }
 
         // POST: Authors/Delete/5
@@ -138,20 +167,11 @@ namespace Blog.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(Guid id)
         {
-            Author author = db.Authors.Find(id);
-            db.Authors.Remove(author);
-            db.SaveChanges();
+            var author = this.authorService.FindAuthor(id);
+            this.authorService.DeleteAuthor(author);
+            this.authorService.Commit();
+
             return RedirectToAction("Index");
         }
-
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                db.Dispose();
-            }
-            base.Dispose(disposing);
-        }
-        */
     }
 }

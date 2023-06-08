@@ -13,6 +13,7 @@ namespace Blog.Mappings
                 .ForMember(dst => dst.Posts, cfg => cfg.MapFrom(src => src.Posts.Count))
                 .ForMember(dst => dst.Comments, cfg => cfg.MapFrom(src => src.Comments.Count));
 
+            CreateMap<Entities.Author, ViewModels.AuthorEditFormViewModel>();
         }
     }
 }

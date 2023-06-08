@@ -44,7 +44,9 @@ namespace Blog.Data.Infrastructure
         public virtual void Update(T entity)
         {
             entity.UpdatedAt = DateTime.Now;
+
             dbSet.Attach(entity);
+
             dataContext.Entry(entity).State = EntityState.Modified;
         }
 
