@@ -160,6 +160,7 @@
     <Compile Include="Controllers\AuthorsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\PostsController.cs" />
+    <Compile Include="Controllers\WizardController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -171,6 +172,10 @@
     <Compile Include="ViewModels\AuthorFormViewModel.cs" />
     <Compile Include="ViewModels\AuthorViewModel.cs" />
     <Compile Include="ViewModels\PostViewModel.cs" />
+    <Compile Include="ViewModels\WizardViewModels\Step1ViewModel.cs" />
+    <Compile Include="ViewModels\WizardViewModels\Step2ViewModel.cs" />
+    <Compile Include="ViewModels\WizardViewModels\Step3ViewModel.cs" />
+    <Compile Include="ViewModels\WizardViewModels\WizardViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap-theme.css" />
@@ -228,6 +233,10 @@
     <Content Include="Views\Authors\Edit.cshtml" />
     <Content Include="Views\Authors\Index.cshtml" />
     <Content Include="Views\Posts\Index.cshtml" />
+    <Content Include="Views\Wizard\Step1.cshtml" />
+    <Content Include="Views\Wizard\Step2.cshtml" />
+    <Content Include="Views\Wizard\Step3.cshtml" />
+    <Content Include="Views\Wizard\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
