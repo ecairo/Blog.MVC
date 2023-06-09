@@ -21,6 +21,8 @@ namespace Blog
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
 
+            // GlobalConfiguration.Configure(WebApiConfig.Register);
+
             Bootstrapper.Run();
         }
     }

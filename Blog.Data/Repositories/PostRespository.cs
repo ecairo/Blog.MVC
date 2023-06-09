@@ -2,9 +2,9 @@
 
 namespace Blog.Data.Repositories
 {
-    public class PostRespository : RepositoryBase<Entities.Post>, IPostRespository
+    public class PostRepository : RepositoryBase<Entities.Post>, IPostRepository
     {
-        public PostRespository(IDbFactory dbFactory)
+        public PostRepository(IDbFactory dbFactory)
             :base(dbFactory)
         {
 

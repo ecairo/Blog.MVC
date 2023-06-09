@@ -1,7 +1,9 @@
-﻿using Microsoft.Owin;
+﻿using Blog.App_Start;
+using Microsoft.Owin;
 using Owin;
 using System;
 using System.Threading.Tasks;
+using System.Web.Http;
 
 [assembly: OwinStartup(typeof(Blog.Startup))]
 
@@ -13,6 +15,8 @@ namespace Blog
         {
             // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=316888
             ConfigureAuth(app);
+
+            Bootstrapper.SetWebApiContainer(app);
         }
     }
 }

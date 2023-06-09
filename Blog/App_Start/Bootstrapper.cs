@@ -3,6 +3,7 @@ using Autofac.Core;
 using Autofac.Core.Registration;
 using Autofac.Core.Resolving.Pipeline;
 using Autofac.Integration.Mvc;
+using Autofac.Integration.WebApi;
 using AutoMapper;
 using Blog.Data;
 using Blog.Data.Infrastructure;
@@ -12,11 +13,13 @@ using Blog.Service;
 using log4net;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
+using Owin;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Web;
+using System.Web.Http;
 using System.Web.Mvc;
 
 namespace Blog.App_Start
@@ -38,23 +41,9 @@ namespace Blog.App_Start
             builder.RegisterControllers(Assembly.GetExecutingAssembly()).ConfigurePipeline(p =>
             {
                 p.Use(new Log4NetMiddleware());
-            }); 
+            });
 
-            // Registra las dependencias
-            builder.RegisterType<UnitOfWork>().As<IUnitOfWork>().InstancePerRequest();
-
-            builder.RegisterType<DbFactory>().As<IDbFactory>().InstancePerRequest();
-
-            builder.RegisterType<AuthorRepository>().As<IAuthorRepository>().InstancePerRequest();
-
-            builder.RegisterType<AuthorService>().As<IAuthorService>().InstancePerRequest();
-
-            // Registrando AutoMapper
-            builder.Register<IConfigurationProvider>(ctx => new MapperConfiguration(cfg => cfg.AddMaps(Assembly.GetExecutingAssembly())));
-            builder.Register<IMapper>(ctx => new Mapper(ctx.Resolve<IConfigurationProvider>(), ctx.Resolve)).InstancePerDependency();
-
-            builder.Register(c => new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(new BlogEntities())))
-                .As<UserManager<ApplicationUser>>().InstancePerLifetimeScope();
+            RegisterServices(builder);
 
 
             //builder.Register(c => LogManager.GetLogger(typeof(Object))).As<ILog>();
@@ -64,6 +53,60 @@ namespace Blog.App_Start
 
             // Configura la resolución de dependencias para los controladores de MVC
             DependencyResolver.SetResolver(new AutofacDependencyResolver(container));
+        }
+
+        public static void SetWebApiContainer(IAppBuilder app)
+        {
+            var builder = new ContainerBuilder();
+            builder.RegisterApiControllers(Assembly.GetExecutingAssembly()).ConfigurePipeline(p =>
+            {
+                p.Use(new Log4NetMiddleware());
+            });
+
+            RegisterServices(builder);
+
+            var container = builder.Build();
+
+            var config = new HttpConfiguration();
+            WebApiConfig.Register(config);
+
+            var dependencyResolver = new AutofacWebApiDependencyResolver(container);
+            config.DependencyResolver = dependencyResolver;
+
+            app.UseAutofacMiddleware(container);
+            app.UseAutofacWebApi(config);
+            app.UseWebApi(config);
+        }
+
+        private static void RegisterServices(ContainerBuilder builder)
+        {
+            builder.RegisterType<UnitOfWork>().As<IUnitOfWork>().InstancePerRequest();
+
+            builder.RegisterType<DbFactory>().As<IDbFactory>().InstancePerRequest();
+
+            builder.RegisterAssemblyTypes(Assembly.Load("Blog.Data"))
+                .Where(t => t.Name.EndsWith("Repository"))
+                .AsImplementedInterfaces().InstancePerLifetimeScope();
+
+            builder.RegisterAssemblyTypes(Assembly.Load("Blog.Service"))
+                .Where(t => t.Name.EndsWith("Service"))
+                .AsImplementedInterfaces().InstancePerLifetimeScope();
+
+            //builder.RegisterType<AuthorRepository>().As<IAuthorRepository>().InstancePerRequest();
+
+            //builder.RegisterType<AuthorService>().As<IAuthorService>().InstancePerRequest();
+
+            //builder.RegisterType<PostRepository>().As<IPostRepository>().InstancePerRequest();
+
+            //builder.RegisterType<PostService>().As<IPostService>().InstancePerRequest();
+
+
+            // Registrando AutoMapper
+            builder.Register<IConfigurationProvider>(ctx => new MapperConfiguration(cfg => cfg.AddMaps(Assembly.GetExecutingAssembly())));
+            builder.Register<IMapper>(ctx => new Mapper(ctx.Resolve<IConfigurationProvider>(), ctx.Resolve)).InstancePerDependency();
+
+            builder.Register(c => new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(new BlogEntities())))
+                .As<UserManager<ApplicationUser>>().InstancePerLifetimeScope();
         }
     }
 
