@@ -7,7 +7,7 @@ using System.Linq.Expressions;
 
 namespace Blog.Data.Infrastructure
 {
-    public abstract class RepositoryBase<T> where T : EntityBase
+    public abstract class RepositoryBase<T> where T : EntityBase, IEntityBase
     {
         private readonly IDbSet<T> dbSet;
         private BlogEntities dataContext;

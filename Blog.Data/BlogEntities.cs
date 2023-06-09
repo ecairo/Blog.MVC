@@ -1,9 +1,9 @@
-﻿using System;
+﻿using Microsoft.AspNet.Identity.EntityFramework;
 using System.Data.Entity;
 
 namespace Blog.Data
 {
-    public class BlogEntities : DbContext
+    public class BlogEntities : IdentityDbContext<Entities.ApplicationUser>
     {
         public BlogEntities() : base("BlogEntities")
         {

@@ -1,9 +1,13 @@
 ﻿using Autofac;
 using Autofac.Integration.Mvc;
 using AutoMapper;
+using Blog.Data;
 using Blog.Data.Infrastructure;
 using Blog.Data.Repositories;
+using Blog.Entities;
 using Blog.Service;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -39,6 +43,9 @@ namespace Blog.App_Start
             // Registrando AutoMapper
             builder.Register<IConfigurationProvider>(ctx => new MapperConfiguration(cfg => cfg.AddMaps(Assembly.GetExecutingAssembly())));
             builder.Register<IMapper>(ctx => new Mapper(ctx.Resolve<IConfigurationProvider>(), ctx.Resolve)).InstancePerDependency();
+
+            builder.Register(c => new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(new BlogEntities())))
+                .As<UserManager<ApplicationUser>>().InstancePerLifetimeScope();
 
             // Crea el contenedor Autofac
             IContainer container = builder.Build();
