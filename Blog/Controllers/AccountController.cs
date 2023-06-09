@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Blog.Entities;
 using Blog.Service;
+using log4net;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
@@ -20,14 +21,16 @@ namespace Blog.Controllers
         private readonly UserManager<ApplicationUser> userManager;
         private readonly IAuthorService authorService;
         private readonly IMapper mapper;
+        private readonly ILog logger;
         private IAuthenticationManager authenticationManager;
 
         public AccountController(UserManager<ApplicationUser> userManager, IAuthorService authorService,
-            IMapper mapper)
+            IMapper mapper, ILog logger)
         {
             this.userManager = userManager;
             this.authorService = authorService;
             this.mapper = mapper;
+            this.logger = logger;
         }
 
         //
@@ -44,21 +47,27 @@ namespace Blog.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Login(ViewModels.LoginViewModel model, string returnUrl)
+        public async Task<ActionResult> Login(ViewModels.LoginViewModel loginViewModel, string returnUrl)
         {
+            this.logger.Info("Entering Login Action");
+
             if (!ModelState.IsValid)
             {
-                return View(model);
+                return View(loginViewModel);
             }
 
             // This doesn't count login failures towards account lockout
             // To enable password failures to trigger account lockout, change to shouldLockout: true
 
-            var user = await this.userManager.FindAsync(model.Email, model.Password);
+            var user = await this.userManager.FindAsync(loginViewModel.Email, loginViewModel.Password);
+            this.logger.Info("User Authenticated: " + loginViewModel.Email);
 
-            if(user != null)
+            if (user != null)
             {
-                var result = await this.GenerateUserIdentityAsync(user);
+                await this.SignInAsync(user, loginViewModel.RememberMe);
+
+                this.logger.Info("User Identity Cookie Generated: " + loginViewModel.Email);
+
                 return RedirectToLocal(returnUrl);
                 //switch (result)
                 //{
@@ -75,7 +84,7 @@ namespace Blog.Controllers
                 //}
             }
 
-            return View(model);
+            return View(loginViewModel);
         }
 
         //
