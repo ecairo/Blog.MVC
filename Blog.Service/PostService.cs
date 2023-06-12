@@ -36,5 +36,10 @@ namespace Blog.Service
         {
             this.unitOfWork.Commit();
         }
+
+        public void Update(Post postEntityUpdated)
+        {
+            this.postRepository.Update(postEntityUpdated);
+        }
     }
 }

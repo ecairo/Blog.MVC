@@ -255,6 +255,7 @@
     <Compile Include="ViewModels\AuthorViewModel.cs" />
     <Compile Include="ViewModels\LoginViewModel.cs" />
     <Compile Include="ViewModels\PostToCreationViewModel.cs" />
+    <Compile Include="ViewModels\PostToUpdateViewModel.cs" />
     <Compile Include="ViewModels\PostViewModel.cs" />
     <Compile Include="ViewModels\RegisterViewModel.cs" />
     <Compile Include="ViewModels\WizardViewModels\Step1ViewModel.cs" />

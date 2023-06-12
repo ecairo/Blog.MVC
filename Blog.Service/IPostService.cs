@@ -1,4 +1,5 @@
 ﻿using Blog.Data.Infrastructure;
+using Blog.Entities;
 using System;
 using System.Collections.Generic;
 
@@ -10,5 +11,6 @@ namespace Blog.Service
         Entities.Post GetPost(Guid id);
         void CreatePost(Entities.Post postEntity);
         void Commit();
+        void Update(Post postEntityUpdated);
     }
 }

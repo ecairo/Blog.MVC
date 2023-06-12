@@ -1,14 +1,13 @@
 ﻿using AutoMapper;
 using Blog.Data.Infrastructure;
 using Blog.Service;
-using Microsoft.AspNet.Identity;
 using System;
 using System.Collections.Generic;
 using System.Web.Http;
 
 namespace Blog.WebApiControllers
 {
-    [RoutePrefix("api/posts/{id}")]
+    [RoutePrefix("api/posts")]
     public class PostsController : ApiController
     {
         private readonly IPostService postService;
@@ -21,6 +20,7 @@ namespace Blog.WebApiControllers
         }
 
         //[Route("{pageNumber:int:min(1)}/{pageSize:int:min(10)}")]
+        [Route("")]
         public IHttpActionResult /*IEnumerable<ViewModels.PostViewModel>*/ Get(int pageNumber = 1, int pageSize = 10)
         {
             var page = new Page(pageNumber, pageSize);
@@ -30,7 +30,7 @@ namespace Blog.WebApiControllers
             return Ok(this.mapper.Map<IEnumerable<Entities.Post>, IEnumerable<ViewModels.PostViewModel>>(postsEntities));
         }
 
-        [Route(Name = "GetPost")]
+        [Route("{id}", Name = "GetPost")]
         public IHttpActionResult Get(Guid id)
         {
             var postEntity = this.postService.GetPost(id);
@@ -44,6 +44,7 @@ namespace Blog.WebApiControllers
         }
 
         [HttpPost]
+        [Route("", Name = "PostCreation")]
         public IHttpActionResult Post(ViewModels.PostToCreationViewModel postToCreationViewModel)
         {
             if (ModelState.IsValid == false)
@@ -67,6 +68,42 @@ namespace Blog.WebApiControllers
             var postViewModel = this.mapper.Map<Entities.Post, ViewModels.PostViewModel>(this.postService.GetPost(postId));
 
             return CreatedAtRoute("GetPost", new { id = postId }, postViewModel);
+        }
+
+        [HttpPut]
+        [Route("{id}", Name = "UpdatePost")]
+        public IHttpActionResult Put(Guid id, ViewModels.PostToUpdateViewModel postToUpdateViewModel)
+        {
+            var postToUpdate = this.postService.GetPost(id);
+
+            if (postToUpdate == null)
+            {
+                return NotFound();
+            }
+
+            if (ModelState.IsValid == false)
+            {
+                return BadRequest();
+            }
+
+            // User has permissions to update
+
+            var postEntityUpdated = this.mapper.Map<ViewModels.PostToUpdateViewModel, Entities.Post>(postToUpdateViewModel, postToUpdate);
+
+            this.postService.Update(postEntityUpdated);
+
+            this.postService.Commit();
+
+            var postViewModel = this.mapper.Map<Entities.Post, ViewModels.PostViewModel>(postEntityUpdated);
+
+            return Ok(postViewModel);
+        }
+
+        [HttpDelete]
+        [Route("{id}", Name = "DeletePost")]
+        public IHttpActionResult Put(Guid id)
+        {
+            throw new NotImplementedException();
         }
         /*
          *  

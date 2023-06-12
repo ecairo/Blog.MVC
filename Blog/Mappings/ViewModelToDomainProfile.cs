@@ -17,6 +17,8 @@ namespace Blog.Mappings
             CreateMap<ViewModels.RegisterViewModel, Entities.Author>();
 
             CreateMap<ViewModels.PostToCreationViewModel, Entities.Post>();
+
+            CreateMap<ViewModels.PostToUpdateViewModel, Entities.Post>();
         }
     }
 }
