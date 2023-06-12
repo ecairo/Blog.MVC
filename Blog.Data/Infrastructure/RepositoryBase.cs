@@ -1,4 +1,5 @@
 ﻿using Blog.Entities;
+using PagedList;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -83,5 +84,20 @@ namespace Blog.Data.Infrastructure
         }
 
         #endregion
+
+        /// <summary>
+        /// Return a paged list of entities
+        /// </summary>
+        /// <typeparam name="TOrder"></typeparam>
+        /// <param name="page">Which page to retrieve</param>
+        /// <param name="where">Where clause to apply</param>
+        /// <param name="order">Order by to apply</param>
+        /// <returns></returns>
+        public virtual IPagedList<T> GetPage<TOrder>(Page page, Expression<Func<T, bool>> where, Expression<Func<T, TOrder>> order)
+        {
+            var results = dbSet.OrderBy(order).Where(where).GetPage(page).ToList();
+            var total = dbSet.Count(where);
+            return new StaticPagedList<T>(results, page.PageNumber, page.PageSize, total);
+        }
     }
 }

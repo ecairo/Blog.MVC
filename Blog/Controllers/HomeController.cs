@@ -4,6 +4,7 @@ using System.Web.Mvc;
 
 namespace Blog.Controllers
 {
+    [Authorize]
     public class HomeController : Controller
     {
         private readonly IAuthorService authorService;
@@ -15,6 +16,7 @@ namespace Blog.Controllers
             this.logger = logger;
         }
 
+        [HttpGet]
         public ActionResult Index(string name)
         {
             //ViewBag.QueryName = HttpContext.Request.QueryString.Get("name"); 
@@ -24,7 +26,7 @@ namespace Blog.Controllers
             return View();
         }
 
-
+        [HttpGet]
         public ActionResult About()
         {
             ViewBag.Message = "Your application description page.";
@@ -32,6 +34,7 @@ namespace Blog.Controllers
             return View();
         }
 
+        [HttpGet]
         public ActionResult Contact()
         {
             ViewBag.Message = "Your contact page.";

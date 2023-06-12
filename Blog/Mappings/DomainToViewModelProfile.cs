@@ -14,6 +14,8 @@ namespace Blog.Mappings
                 .ForMember(dst => dst.Comments, cfg => cfg.MapFrom(src => src.Comments.Count));
 
             CreateMap<Entities.Author, ViewModels.AuthorEditFormViewModel>();
+
+            CreateMap<Entities.Post, ViewModels.PostViewModel>();
         }
     }
 }

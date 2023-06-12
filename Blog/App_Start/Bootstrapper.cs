@@ -55,7 +55,7 @@ namespace Blog.App_Start
             DependencyResolver.SetResolver(new AutofacDependencyResolver(container));
         }
 
-        public static void SetWebApiContainer(IAppBuilder app)
+        public static void SetWebApiContainer(this IAppBuilder app)
         {
             var builder = new ContainerBuilder();
             builder.RegisterApiControllers(Assembly.GetExecutingAssembly()).ConfigurePipeline(p =>

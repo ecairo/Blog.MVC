@@ -244,6 +244,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\ServiceExtensions.cs" />
     <Compile Include="Mappings\DomainToViewModelProfile.cs" />
     <Compile Include="Mappings\ViewModelToDomainProfile.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -259,6 +260,7 @@
     <Compile Include="ViewModels\WizardViewModels\Step2ViewModel.cs" />
     <Compile Include="ViewModels\WizardViewModels\Step3ViewModel.cs" />
     <Compile Include="ViewModels\WizardViewModels\WizardViewModel.cs" />
+    <Compile Include="WebApiControllers\AuthorizationController.cs" />
     <Compile Include="WebApiControllers\PostsController.cs" />
   </ItemGroup>
   <ItemGroup>
