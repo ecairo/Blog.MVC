@@ -1,5 +1,8 @@
-﻿using Blog.Service;
+﻿using Blog.Attributes;
+using Blog.Service;
 using log4net;
+using System.Globalization;
+using System.Threading;
 using System.Web.Mvc;
 
 namespace Blog.Controllers
@@ -17,10 +20,13 @@ namespace Blog.Controllers
         }
 
         [HttpGet]
+        [I18N]
         public ActionResult Index(string name)
         {
             //ViewBag.QueryName = HttpContext.Request.QueryString.Get("name"); 
             this.logger.Info("Hello from Home controller index");
+
+            ViewBag.HomeLinkTranslated = Strings.HomeLink;
 
             ViewBag.QueryName = name;
             return View();
