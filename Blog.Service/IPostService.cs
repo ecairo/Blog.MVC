@@ -8,5 +8,7 @@ namespace Blog.Service
     {
         IEnumerable<Entities.Post> GetPosts(Page page);
         Entities.Post GetPost(Guid id);
+        void CreatePost(Entities.Post postEntity);
+        void Commit();
     }
 }

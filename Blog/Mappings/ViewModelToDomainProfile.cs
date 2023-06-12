@@ -15,6 +15,8 @@ namespace Blog.Mappings
             CreateMap<ViewModels.AuthorEditFormViewModel, Entities.Author>();
 
             CreateMap<ViewModels.RegisterViewModel, Entities.Author>();
+
+            CreateMap<ViewModels.PostToCreationViewModel, Entities.Post>();
         }
     }
 }

@@ -17,6 +17,11 @@ namespace Blog.Service
             this.unitOfWork = unitOfWork;
         }
 
+        public void CreatePost(Post postEntity)
+        {
+            this.postRepository.Add(postEntity);
+        }
+
         public Post GetPost(Guid id)
         {
             return this.postRepository.GetById(id);
@@ -25,6 +30,11 @@ namespace Blog.Service
         public IEnumerable<Entities.Post> GetPosts(Page page)
         {
             return this.postRepository.GetPage(page, post => true, post => post.UpdatedAt);
+        }
+
+        public void Commit()
+        {
+            this.unitOfWork.Commit();
         }
     }
 }
